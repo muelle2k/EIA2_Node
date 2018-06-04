@@ -28,15 +28,20 @@ namespace Server {
     if (port == undefined)
         port = 8300;
 
-    let server: Http.Server = Http.createServer((_request: Http.IncomingMessage, _response: Http.ServerResponse) => {
-        _response.setHeader("content-type", "text/html; charset=utf-8");
-        _response.setHeader("Access-Control-Allow-Origin", "*");
-    });
+    let server: Http.Server = Http.createServer();
+    
+   //     (_request: Http.IncomingMessage, _response: Http.ServerResponse) => {
+     //   _response.setHeader("content-type", "text/html; charset=utf-8");
+       // _response.setHeader("Access-Control-Allow-Origin", "*"); });
+    
+    
     server.addListener("request", handleRequest);
     server.listen(port);
 
     function handleRequest(_request: Http.IncomingMessage, _response: Http.ServerResponse): void {
         console.log("Ich höre Stimmen! :)");
+        _response.setHeader("content-type", "text/html; charset=utf-8");
+        _response.setHeader("Access-Control-Allow-Origin", "*");
         let query: AssocStringString = Url.parse(_request.url, true).query;
         console.log(query["command"]);
         if (query["command"] ) {
