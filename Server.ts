@@ -26,7 +26,7 @@ namespace Server {
     let studiHomoAssoc: Studis = {};
     let port: number = process.env.PORT;
     if (port == undefined)
-        port = 8300;
+        port = 8200;
 
     let server: Http.Server = Http.createServer((_request: Http.IncomingMessage, _response: Http.ServerResponse) => {
         _response.setHeader("content-type", "text/html; charset=utf-8");
