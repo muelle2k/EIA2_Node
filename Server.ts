@@ -75,8 +75,9 @@ import * as Database from "./Database";
         }
     
 function respond(_response: Http.ServerResponse, _text: string): void {
-    _response.setHeader("content-type", "text/html; charset=utf-8");
+    //console.log("Preparing response: " + _text);
     _response.setHeader("Access-Control-Allow-Origin", "*");
+    _response.setHeader("content-type", "text/html; charset=utf-8");
     _response.write(_text);
-    _response.end(); 
+    _response.end();
 }
