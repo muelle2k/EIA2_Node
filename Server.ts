@@ -10,6 +10,16 @@ let server: Http.Server = Http.createServer();
 server.addListener("request", handleRequest);
 server.listen(port);
 
+
+function respond(_response: Http.ServerResponse, _text: string): void {
+    _response.setHeader("content-type", "text/html; charset=utf-8");
+    _response.setHeader("Access-Control-Allow-Origin", "*");
+    _response.write(_text);
+    _response.end();
+}
+
+
+
 function handleRequest(_request: Http.IncomingMessage, _response: Http.ServerResponse): void {
     console.log("Ich höre Stimmen!");
     let query: AssocStringString = Url.parse(_request.url, true).query;
@@ -54,7 +64,7 @@ function insert(query: AssocStringString, _response: Http.ServerResponse): void 
         studiengang: _studiengang
     };
     Database.insert(studi);
-    respond(_response, "Daten empfangen");
+    respond(_response, "Daten wurden empfangen");
 }
 
 function refresh(_response: Http.ServerResponse): void {
@@ -75,9 +85,3 @@ function error(): void {
 }
 
 
-function respond(_response: Http.ServerResponse, _text: string): void {
-    _response.setHeader("Access-Control-Allow-Origin", "*");
-    _response.setHeader("content-type", "text/html; charset=utf-8");
-    _response.write(_text);
-    _response.end();
-}
