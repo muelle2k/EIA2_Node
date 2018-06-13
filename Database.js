@@ -1,8 +1,4 @@
 "use strict";
-/**
- * Simple database insertion and query for MongoDB
- * @author: Jirka Dell'Oro-Friedl
- */
 const Mongo = require("mongodb");
 console.log("Database starting");
 let databaseURL = "mongodb://localhost:27017";
@@ -12,8 +8,8 @@ let students;
 // wenn wir auf heroku sind...
 if (process.env.NODE_ENV == "production") {
     //    databaseURL = "mongodb://username:password@hostname:port/database";
-    databaseURL = "mongodb://testuser:testpassword@ds129532.mlab.com:29532/eia2";
-    databaseName = "eia2";
+    databaseURL = "mongodb://testuser:testpassword1@ds247270.mlab.com:47270/studenten";
+    databaseName = "studenten";
 }
 // handleConnect wird aufgerufen wenn der Versuch, die Connection zur Datenbank herzustellen, erfolgte
 Mongo.MongoClient.connect(databaseURL, handleConnect);
@@ -37,11 +33,37 @@ function findAll(_callback) {
     var cursor = students.find();
     cursor.toArray(prepareAnswer);
     function prepareAnswer(_e, studentArray) {
-        if (_e)
+        if (_e) {
             _callback("Error" + _e);
-        else
-            _callback(JSON.stringify(studentArray));
+        }
+        else {
+            let line;
+            for (let i = 0; i < studentArray.length; i++) {
+                line += studentArray[i].matrikel + ": " + studentArray[i].studiengang + ", " + studentArray[i].name + ", " + studentArray[i].firstname + ", " + studentArray[i].age + ", ";
+                line += studentArray[i].gender ? "(M)" : "(F)";
+                line += "\n";
+            }
+            _callback(line);
+        }
     }
 }
 exports.findAll = findAll;
+function findStudent(searchMatrikel, _callback) {
+    var cursor = students.find({ "matrikel": searchMatrikel }).limit(1);
+    cursor.next(prepareStudent);
+    function prepareStudent(_e, studi) {
+        if (_e) {
+            _callback("Error" + _e);
+        }
+        if (studi) {
+            let line = studi.matrikel + ": " + studi.studiengang + ", " + studi.name + ", " + studi.firstname + ", " + studi.age + ", ";
+            line += studi.gender ? "(M)" : "(F)";
+            _callback(line);
+        }
+        else {
+            _callback("No result");
+        }
+    }
+}
+exports.findStudent = findStudent;
 //# sourceMappingURL=Database.js.map

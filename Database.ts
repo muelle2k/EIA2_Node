@@ -71,5 +71,5 @@ export function findStudent(searchMatrikel: number, _callback: Function): void {
             _callback("No result");
         }
 
-    }
+}
 }
