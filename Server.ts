@@ -64,7 +64,7 @@ function insert(query: AssocStringString, _response: Http.ServerResponse): void 
         studiengang: _studiengang
     };
     Database.insert(studi);
-    respond(_response, "Daten wurden empfangen");
+    respond(_response, "Data received!");
 }
 
 function refresh(_response: Http.ServerResponse): void {
@@ -75,7 +75,6 @@ function refresh(_response: Http.ServerResponse): void {
 
 function search(query: AssocStringString, _response: Http.ServerResponse): void {
     let searchMatrikel: number = parseInt(query["searchFor"]);
-    
     Database.findStudent(searchMatrikel, function(json: string): void {
         respond(_response, json);
     });
@@ -84,5 +83,3 @@ function search(query: AssocStringString, _response: Http.ServerResponse): void 
 function error(): void {
     alert("Error");
 }
-
-

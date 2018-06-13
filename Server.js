@@ -8,14 +8,12 @@ if (port == undefined)
 let server = Http.createServer();
 server.addListener("request", handleRequest);
 server.listen(port);
-
-function respond(_response, _text) {    
+function respond(_response, _text) {
     _response.setHeader("content-type", "text/html; charset=utf-8");
     _response.setHeader("Access-Control-Allow-Origin", "*");
     _response.write(_text);
     _response.end();
 }
-
 function handleRequest(_request, _response) {
     console.log("Ich höre Stimmen!");
     let query = Url.parse(_request.url, true).query;
@@ -54,7 +52,7 @@ function insert(query, _response) {
         studiengang: _studiengang
     };
     Database.insert(studi);
-    respond(_response, "Daten empfangen");
+    respond(_response, "Data received!");
 }
 function refresh(_response) {
     Database.findAll(function (json) {
@@ -70,5 +68,4 @@ function search(query, _response) {
 function error() {
     alert("Error");
 }
-
 //# sourceMappingURL=Server.js.map
